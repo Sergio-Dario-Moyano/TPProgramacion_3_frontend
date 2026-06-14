@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Foto Tienda</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <main class="index-container">
+        <div class="container-card">
+            <h1>Bienvenido a</h1>
+            <div class="content-logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                    <circle cx="12" cy="13" r="4"></circle>
+                </svg>
+                <span>FOTO</span>TIENDA
+            </div>
+            <p>Registrate para descubrir el equipo ideal para llevar tu mirada al siguiente nivel.</p>
+            
+            <form id="registro-form">
+                <div class="input-group">
+                    <label for="nombre-usuario">Nombre</label>
+                    <input type="text" id="nombre-usuario" name="nombre-usuario" placeholder="Ingresá tu nombre" required>
+                </div>
+                <div class="input-group">
+                    <label for="email-usuario">Email</label>
+                    <input type="email" id="email-usuario" name="email-usuario" placeholder="Ingresá tu email" required>
+                </div>
+                <button type="submit" class="btn-ingresar">Ingresar a la Tienda</button>
+            </form>
+        </div>
+    </main>
+    <script type="module" src="/js/main.js"></script>
+</body>
+</html>
+

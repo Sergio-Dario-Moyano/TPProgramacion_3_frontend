@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+
+/* Reseteo básico para evitar problemas de anchos con el padding */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* color de fondo, texto y tipografía */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-white);
+    font-family: 'Inter', sans-serif; 
+    margin: 0;
+}

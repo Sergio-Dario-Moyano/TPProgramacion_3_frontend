@@ -1,0 +1,82 @@
+[
+  {
+    "id": 1,
+    "nombre": "iPhone 15 Pro",
+    "descripcion": "Smartphone de Apple con chip A17 Pro, chasis de titanio y sistema de cámaras Pro.",
+    "precio": 1200.00,
+    "imagen": "https://picsum.photos/id/104/400/400",
+    "categoria": "Smartphones"
+  },
+  {
+    "id": 2,
+    "nombre": "Samsung Galaxy S24 Ultra",
+    "descripcion": "Teléfono insignia de Samsung con pantalla plana, S Pen integrado y funciones avanzadas de IA.",
+    "precio": 1300.00,
+    "imagen": "https://picsum.photos/id/15/400/400",
+    "categoria": "Smartphones"
+  },
+  {
+    "id": 3,
+    "nombre": "Google Pixel 8 Pro",
+    "descripcion": "El mejor teléfono para fotografía computacional con la experiencia Android más pura.",
+    "precio": 999.00,
+    "imagen": "https://picsum.photos/id/29/400/400",
+    "categoria": "Smartphones"
+  },
+  {
+    "id": 4,
+    "nombre": "Xiaomi 14",
+    "descripcion": "Gama alta de tamaño compacto, excelente rendimiento y cámaras co-desarrolladas con Leica.",
+    "precio": 850.00,
+    "imagen": "https://picsum.photos/id/96/400/400",
+    "categoria": "Smartphones"
+  },
+  {
+    "id": 5,
+    "nombre": "OnePlus 12",
+    "descripcion": "Teléfono de altísimo rendimiento con batería de gran duración y carga ultrarrápida.",
+    "precio": 800.00,
+    "imagen": "https://picsum.photos/id/42/400/400",
+    "categoria": "Smartphones"
+  },
+  {
+    "id": 6,
+    "nombre": "MacBook Air M3",
+    "descripcion": "Laptop ultraligera de Apple con procesador M3, diseño sin ventilador y gran autonomía.",
+    "precio": 1100.00,
+    "imagen": "https://picsum.photos/id/20/400/400",
+    "categoria": "Laptops"
+  },
+  {
+    "id": 7,
+    "nombre": "Dell XPS 15",
+    "descripcion": "Laptop premium ideal para productividad y creadores de contenido, con pantalla OLED opcional.",
+    "precio": 1500.00,
+    "imagen": "https://picsum.photos/id/22/400/400",
+    "categoria": "Laptops"
+  },
+  {
+    "id": 8,
+    "nombre": "Lenovo ThinkPad X1 Carbon",
+    "descripcion": "La mejor laptop para el entorno empresarial. Ultraligera, resistente y con un teclado excepcional.",
+    "precio": 1400.00,
+    "imagen": "https://picsum.photos/id/58/400/400",
+    "categoria": "Laptops"
+  },
+  {
+    "id": 9,
+    "nombre": "ASUS ROG Zephyrus G14",
+    "descripcion": "Laptop gaming potente y sorprendentemente portátil, con chasis de aleación de magnesio.",
+    "precio": 1600.00,
+    "imagen": "https://picsum.photos/id/91/400/400",
+    "categoria": "Laptops"
+  },
+  {
+    "id": 10,
+    "nombre": "HP Spectre x360",
+    "descripcion": "Convertible 2 en 1 con un diseño muy elegante, pantalla táctil y lápiz óptico incluido.",
+    "precio": 1350.00,
+    "imagen": "https://picsum.photos/id/169/400/400",
+    "categoria": "Laptops"
+  }
+]
