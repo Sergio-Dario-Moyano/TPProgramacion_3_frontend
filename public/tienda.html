@@ -9,49 +9,52 @@
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
+
     <header class="navbar">
-        <a href="#" class="logo">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
-                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-                <circle cx="12" cy="13" r="4"></circle>
-            </svg>
-            <span>FOTO</span>TIENDA
-        </a>
         
-        <div class="search-container">
-            <input type="text" placeholder="Buscar producto" class="search-bar">
-        </div>
-
-
-
-        <div class="header-actions">
-            <a href="#" class="cart-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="#ffffff" width="28" height="28">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
-                </svg>
-                <span class="cart-count">0</span>
-            </a>
+            <div class="container-logo">
+                <a href="#" class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+                        <circle cx="12" cy="13" r="4"></circle>
+                    </svg>
+                    <span>FOTO</span>TIENDA
+                </a>
+            </div>
             
-            <button id="menu-btn" class="menu-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
-                </svg>
-            </button>
-        </div>
+            <div class="search-container">
+                <input type="text" placeholder="Buscar producto" class="search-bar">
+            </div>
+            
+            
+            
+            <div class="header-actions">
+                <a href="#" class="cart-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="#ffffff" width="28" height="28">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+                    </svg>
+                    <span class="cart-count">0</span>
+                </a>
+                
+                <button id="menu-btn" class="menu-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <nav id="nav-links" class="nav-links">
+                <ul class="nav-categories">
+                    <li><a href="#" data-categoria="camaras" class="nav-filter">Cámaras</a></li>
+                    <li><a href="#" data-categoria="lentes" class="nav-filter">Lentes</a></li>
+                    <li><a href="#" data-categoria="" class="nav-filter active">Todo</a></li>
+                </ul>
+            </nav>
+            <section id="bienvenida-cliente" class="bienvenida-cliente"></section>
         
-        <nav id="nav-links" class="nav-links">
-            <ul class="nav-categories">
-                <li><a href="#">Cámaras</a></li>
-                <li><a href="#">Lentes</a></li>
-                <li><a href="#">Todo</a></li>
-            </ul>
-
-
-        </nav>
     </header>
 
     <main class="container">
-        <section id="bienvenida-cliente"></section>
         <section class="hero">
             <h1>Productos</h1>
             <p>

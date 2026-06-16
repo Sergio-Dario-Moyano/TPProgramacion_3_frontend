@@ -3,111 +3,101 @@ import * as Model from '../models/model.js';
 import * as View from '../views/view.js';
 
 //CAPTURA DE LOS DATOS DEL FORMULARIO DE BIENVENIDA
-const formularioRegistro = () => {
+export const inicializarRegistro = () => {
     const formRegistro =  document.getElementById("registro-form");
 
     if(formRegistro) {
         formRegistro.addEventListener("submit", async (event) => {
-            event.preventDefault();;
-            
-            const nombreUsuario = document.getElementById("nombre-usuario").value;
-            const emailUsuario = document.getElementById("email-usuario").value;
+            event.preventDefault();
 
-            localStorage.setItem("usuario", nombreUsuario);
-            localStorage.setItem("email", emailUsuario);
+            //pedimos los datos a la vista
+            const { nombre, email } = View.obtenerDatosDelFormulario();
+            
+            //pido al modelo que guarde la info y la envie a localStorage
+            Model.guardarEnLocalStorage(nombre, email);
 
             try {
-                const response = await fetch("/api/usuarios", {
-                    method: "POST",
-                    headers: {
-                        "Content-type": "application/json"
-                    },
-                    body: JSON.stringify({ nombreUsuario, emailUsuario })
-                })
+                const registroExitoso = await Model.guardarEnDB(nombre, email);
 
-                if(response.ok) {
-                    window.location.href = "/tienda";
+                if(registroExitoso) {
+                    View.redirigirATienda();
                 }else {
-                    console.log("Error al registrar usuario");
-                    alert("No se pudo completar el registro")
-                    
+                    View.mostrarError("No se pudo completar el registro");
                 }
             } catch (error) {
-                console.log("Error de red: ", error);
-                
+                View.mostrarError("Error de red al intentar registrar usuario")
             }
         })
     }
 }
 
-// RECUPERAR DEL LOCALSTORAGE NOMBRE Y EMAIL DEL USUARIO
-const recuperarDatosDelUsuario = () => {
-    const datosCliente = document.getElementById("datos-cliente");
-    const bienvenidaCliente = document.getElementById("bienvenida-cliente");
+//RECUPERAR LOS DATOS DEL LOCALSTORAGE
+export const cargarPerfilUsuario = () => {
+    //pedimos los datos al modelo
+    const { nombre, email } = Model.obtenerDatosDelLocalStorage();
 
-    const nombreUsuario = localStorage.getItem("usuario");
-    const emailUsuario = localStorage.getItem("email");
-
-    if(bienvenidaCliente) {
-        bienvenidaCliente.innerHTML = `<span><h2>Bienvenido ${nombreUsuario} a nuestra tienda!</h2></span>`
-    }
-
-    if(datosCliente) {
-        datosCliente.innerHTML = `¡¡¡<span class="nombre-usuario-color"> ${nombreUsuario} </span> gracias por elegirnos!!!
-        Enviaremos tu ticket a <span class="email-usuario-color"> ${emailUsuario} </span>`;
+    //los paso a la vista para el saludo inicial
+    if(nombre && email) {
+        View.renderizarBienvenida(nombre, email);
     }
 }
 
-// --- FUNCION AUXILIAR ---
-
+// ACTUALIZAR CARRITO
 export const actualizarCarrito = () => {
     View.actualizarContadorHeader(Model.obtenerTotalItems());
     View.renderizarCarritoLateral(Model.carrito, Model.obtenerTotalAPagar());
-    controlLateral();
 };
 
-// --- EVENTO DE LOS BOTONOES DE LAS CARDS
-
+// EVENTO DE LOS BOTONES EN LAS CARDS
 export const botonesProductos = () => {
-    const botones = document.querySelectorAll('.card .btn-comprar');
-    botones.forEach(boton => {
-        boton.addEventListener('click', (e) => {
-            const dataset = e.target.dataset;
-            // Le dice al Modelo qué guardar
-            Model.agregarAlCarrito(dataset.nombre, parseFloat(dataset.precio), dataset.imagen);
-            
-            // Le pide a la Vista qué dibujar
-            actualizarCarrito(); 
-            View.animarBotonYCarrito(boton);
-        });
+    
+    const contenedorGrid = document.querySelector('.grid-container');
+    
+    if (!contenedorGrid) return;
+
+    contenedorGrid.addEventListener('click', (e) => {
+        
+        const boton = e.target.closest('.btn-comprar');
+
+        if (!boton) return;
+
+        const dataset = boton.dataset;
+        
+        Model.agregarAlCarrito(dataset.nombre, parseFloat(dataset.precio), dataset.imagen);
+        
+        actualizarCarrito(); 
+        View.animarBotonYCarrito(boton);
     });
 };
 
+// EVENTOS EN LA VISUALIZACION DEL CARRITO LATERAL
 export const controlLateral = () => {
-    document.querySelectorAll('.btn-sumar').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            Model.modificarCantidad(e.target.dataset.index, 1);
-            actualizarCarrito();
-        });
-    });
+    
+    const contenedorCarrito = document.getElementById('cart-items-container');
+    if (!contenedorCarrito) return;
 
-    document.querySelectorAll('.btn-restar').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            Model.modificarCantidad(e.target.dataset.index, -1);
-            actualizarCarrito();
-        });
-    });
+    contenedorCarrito.addEventListener('click', (e) => {
+        
+        const btnSumar = e.target.closest('.btn-sumar');
+        const btnRestar = e.target.closest('.btn-restar');
+        const btnEliminar = e.target.closest('.btn-eliminar');
 
-    document.querySelectorAll('.btn-eliminar').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            Model.eliminarDelCarrito(e.target.dataset.index); 
+        if (btnSumar) {
+            Model.modificarCantidad(btnSumar.dataset.index, 1);
             actualizarCarrito();
-        });
+        } 
+        else if (btnRestar) {
+            Model.modificarCantidad(btnRestar.dataset.index, -1);
+            actualizarCarrito();
+        } 
+        else if (btnEliminar) {
+            Model.eliminarDelCarrito(btnEliminar.dataset.index);
+            actualizarCarrito();
+        }
     });
 };
 
-// --- EVENTOS DE LOS BOTONES DEL HEADER
-
+// EVENTOS DE LOS BOTONES DEL HEADER
 export const botonesCarrito = () => {
     // Abrir / Cerrar panel
     document.querySelector('.cart-icon')?.addEventListener('click', (e) => {
@@ -127,18 +117,37 @@ export const botonesCarrito = () => {
         View.toggleTicket(true);
     });
 
-    // Cerrar Ticket, vaciar carrito, ocultar modal y volver al inicio
-    document.getElementById('btn-cerrar-ticket')?.addEventListener('click', () => {
-        Model.vaciarCarrito();
-        actualizarCarrito();
-        View.toggleTicket(false);
-        window.location.href = "/";
+    document.getElementById('btn-cerrar-ticket')?.addEventListener('click', async (e) => {
+        const boton = e.target;
+
+        View.setBotonProcesando(boton);
+
+        try {
+            await Model.registrarVentaActual();
+
+            const datosDelComprobante = Model.obtenerDatosDelComprobante();
+
+            // crear TXT, vaciar carrito, actualizarlo, cerrar ticket y redireccionar
+            View.descargarTicketTXT(datosDelComprobante);
+            Model.vaciarCarrito();
+            actualizarCarrito();
+            View.toggleTicket(false);
+            window.location.href = "/";
+        } catch (error) {
+            console.log("Error en el flujo de venta", error);
+            alert("No se pudo procesar la compra");
+            View.restaurarBotonCerrar(boton);
+            
+        }
     });
 };
 
+// FUNCIONALIDAD DEL MENU EN MODO RESPONSIVE
 export const menuHamburguesa = () => {
     const menuBtn = document.getElementById('menu-btn');
     const navLinks = document.getElementById('nav-links');
+
+    if (!menuBtn || !navLinks) return;
 
     const svgHamburguesa = `
         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
@@ -149,22 +158,26 @@ export const menuHamburguesa = () => {
         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" viewBox="0 0 16 16">
             <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
         </svg>`;
+
     
-    menuBtn?.addEventListener('click', () => {
+    menuBtn.addEventListener('click', () => {
         navLinks.classList.toggle('active');
-        menuBtn.innerHTML = navLinks.classList.contains('active') ? svgCruz : svgHamburguesa;
-        document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        const isActive = navLinks.classList.contains('active');
+        
+        menuBtn.innerHTML = isActive ? svgCruz : svgHamburguesa;
+        document.body.style.overflow = isActive ? 'hidden' : '';
     });
 
-    navLinks?.querySelectorAll('a').forEach(link => {
+    navLinks.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', () => {
             navLinks.classList.remove('active');
-            if(menuBtn) menuBtn.innerHTML = svgHamburguesa;
+            menuBtn.innerHTML = svgHamburguesa;
             document.body.style.overflow = '';
         });
     });
 };
 
+// FUNCIONALIDAD DEL BUSCADOR
 export const buscador = () => {
     const searchBar = document.querySelector('.search-bar');
     
@@ -174,18 +187,39 @@ export const buscador = () => {
             const productosFiltrados = Model.buscarProductos(palabraABuscar);
             
             View.renderizarProductos(productosFiltrados);
-            botonesProductos();
         });
     }
 };
 
-// --- INICIALIZACIÓN ---
+// FILTROS DE CATEGORÍA DEL NAV
+export const filtrosCategoria = () => {
+    const linksFiltros = document.querySelectorAll('.nav-filter');
 
+    linksFiltros.forEach(links => {
+        links.addEventListener('click', (e) => {
+            e.preventDefault(); 
+
+            linksFiltros.forEach(link => link.classList.remove('active'));
+            e.target.classList.add('active');
+
+            const categoriaABuscar = e.target.dataset.categoria; 
+
+            const productosFiltrados = Model.filtrarPorCategoria(categoriaABuscar);
+
+            // Renderizamos los resultados
+            View.renderizarProductos(productosFiltrados);
+        });
+    });
+};
+
+// INICIALIZACIÓN
 export const init = async () => {
     try {
-        formularioRegistro();
-        recuperarDatosDelUsuario();
+        // Formulario
+        inicializarRegistro();
+        cargarPerfilUsuario();
 
+        // obteniendo y dibujando productos
         const productos = await Model.obtenerProductos();
         View.renderizarProductos(productos);
         actualizarCarrito();
@@ -194,9 +228,11 @@ export const init = async () => {
         menuHamburguesa();
         botonesCarrito();
         buscador();
+        filtrosCategoria();
         
         // Eventos Dinámicos (Tarjetas y Carrito Lateral)
         botonesProductos();
+        controlLateral();
     } catch (error) {
         console.error("Hubo un problema al iniciar la app:", error);
     }

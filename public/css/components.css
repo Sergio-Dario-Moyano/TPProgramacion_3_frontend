@@ -42,6 +42,8 @@
 .nav-links a:hover,
 .nav-links a.active {
     color: var(--primary-color);
+    text-decoration: underline;
+    text-underline-offset: 6px;
 }
 
 .search-container { 
@@ -76,6 +78,16 @@
 
 .menu-btn:hover {
     color: var(--primary-color);
+}
+
+.bienvenida-cliente {
+    width: 100%;
+    order: 4;
+}
+
+.bienvenida-cliente p{
+    font-size: 0.9rem;
+    
 }
 
 /* --- ICONO CARRITO --- */
@@ -597,9 +609,8 @@
     }
     
     .search-container { 
-        width: auto; 
         margin-top: 0; 
-        order: 3; 
+        /* order: 3;  */
         flex-grow: 1;
         justify-content: flex-end; 
         margin-right: 30px; 
@@ -619,8 +630,10 @@
     .card-info .description { 
         font-size: 1rem; 
     }
-    
-    .btn-comprar { 
-        padding: 15px; font-size: 16px; 
+
+    .bienvenida-cliente p{
+        text-align: center;
+        font-size: 1.1rem;
     }
+    
 }
