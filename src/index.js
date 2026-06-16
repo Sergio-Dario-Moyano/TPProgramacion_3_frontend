@@ -2,7 +2,7 @@
 import environment from "./config/environment.js";
 import express from "express";
 import cors from "cors";
-import { obtenerProductos, obtenerProductoPorId } from "./controllers/productControllers.js";
+import { obtenerProductos, obtenerProductoPorId, registrarVenta } from "./controllers/productControllers.js";
 
 //IMPORTACIONES PARA EL MANEJO DE RUTAS
 import path, { dirname } from "path";
@@ -32,6 +32,7 @@ app.use((req, res, next) => {
 // --- RUTAS API ---
 app.get("/api/productos", obtenerProductos); //obtengo todos los productos
 app.get("/api/productos/:id", obtenerProductoPorId); //busco un producto por ID
+app.post("/api/ventas", registrarVenta);
 
 // RUTAS FRONTEND
 app.post("/api/usuarios",(req,res) => {

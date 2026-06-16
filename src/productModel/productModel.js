@@ -15,3 +15,9 @@ import connection from '../database/db.js';
         return rows.length > 0 ? rows[0] : null; 
     }
 
+    //guardar las ventas en la DB
+    export const guardarVenta = async (usuario, fecha, total) => {
+        const consultaSQL = 'INSERT INTO ventas (usuario, fecha, total) VALUES (?, ?, ?)';
+        const [resultado] = await connection.query(consultaSQL, [usuario, fecha, total]);
+        return resultado;
+    };

@@ -1,3 +1,43 @@
+// MANEJO DEL FORMULARIO
+export const obtenerDatosDelFormulario = () => {
+    const nombre = document.getElementById("nombre-usuario").value;
+    const email = document.getElementById("email-usuario").value;
+
+    if(!nombre && email) {
+        return;
+    }
+
+    return {
+        nombre: nombre,
+        email: email,
+    };
+}
+
+// FUNCIONES AUXILIARES
+const mostrarError = (mensaje) => {
+    alert(mensaje);
+}
+
+export const redirigirATienda = () => {
+    window.location.href ="/tienda";
+}
+
+export const renderizarBienvenida = (nombre, email) => {
+
+    const datosCliente = document.getElementById("datos-cliente");
+    const bienvenidaCliente = document.getElementById("bienvenida-cliente");
+
+    if(bienvenidaCliente) {
+        bienvenidaCliente.innerHTML = `<p>¡Bienvenido <span> ${nombre} </span>!</p>`
+    }
+
+    if(datosCliente) {
+        datosCliente.innerHTML = `¡¡¡<span class="nombre-usuario-color"> ${nombre} </span> gracias por elegirnos!!!
+        Enviaremos tu ticket a <span class="email-usuario-color"> ${email} </span>`;
+    }
+
+}
+
 //RENDERIZAMOS TODOS LOS PRODUCTOS
 export const renderizarProductos = (productos) => {
     const contenedor = document.querySelector('.grid-container');
@@ -26,7 +66,6 @@ export const renderizarProductos = (productos) => {
     });
     contenedor.innerHTML = html;
 };
-
 
 //RENDERIZAMOS EL CARRITO
 export const renderizarCarritoLateral = (carrito, totalDinero) => {
@@ -64,7 +103,6 @@ export const renderizarCarritoLateral = (carrito, totalDinero) => {
     }
     if (totalElemento) totalElemento.textContent = totalDinero.toFixed(2);
 };
-
 
 //RENDERIZAMOS EL TICKET
 export const renderizarTicket = (carrito, totalDinero) => {
@@ -106,8 +144,8 @@ export const animarBotonYCarrito = (botonElement) => {
     const modal = document.querySelector('.modal');
     const iconoCarrito = document.querySelector('.cart-icon');
     
-    if(modal) modal.classList.add('modal-visible');
-    if(iconoCarrito) iconoCarrito.classList.add('animar');
+    modal?.classList.add('modal-visible');
+    iconoCarrito?.classList.add('animar');
     
     const textoOriginal = botonElement.textContent;
     botonElement.textContent = '¡PRODUCTO AGREGADO! ✔';
@@ -148,3 +186,36 @@ export const toggleTicket = (abrir) => {
     }
 };
 
+
+//MANEJO DE TICKET (CREAR TXT DEL TICKET)
+export const setBotonProcesando = (boton) => {
+    boton.textContent = "Procesando...";
+    boton.disabled = true;
+    boton.disabled = false;
+}
+
+export const restaurarBotonCerrar = (boton) => {
+    boton.textContent = "Volver a la Tienda"
+}
+
+export const descargarTicketTXT = ({cliente, fecha, total}) => {
+    // 1. Armar el string (Responsabilidad de presentación de la Vista)
+        let txt = `=======================================\n   FOTO TIENDA   \n=======================================\n\n`;
+        txt += `Cliente: ${cliente}\nFecha: ${fecha}\n\nDETALLE DE LA COMPRA:\n---------------------------------------\n`;
+        
+        // productos.forEach(prod => {
+        //     txt += `${prod.cantidad}x ${prod.nombre}\n   Subtotal: $${prod.precio * prod.cantidad}\n\n`;
+        // });
+        txt += `---------------------------------------\nTOTAL ABONADO: $${total.toFixed(2)}\n=======================================\n`;
+
+        // 2. Proceso nativo de descarga en el DOM
+        const archivoBlob = new Blob([txt], { type: 'text/plain' });
+        const urlDescarga = URL.createObjectURL(archivoBlob);
+        const enlaceFalso = document.createElement('a');
+        enlaceFalso.href = urlDescarga;
+        enlaceFalso.download = `Comprobante_${Date.now()}.txt`;
+        document.body.appendChild(enlaceFalso);
+        enlaceFalso.click();
+        document.body.removeChild(enlaceFalso);
+        URL.revokeObjectURL(urlDescarga);
+}

@@ -29,3 +29,15 @@ export const obtenerProductoPorId = async (req, res) => {
         res.status(500).json({ error: "Error interno del servidor" });
     }
 }
+
+export const registrarVenta = async (req, res) => {
+    try {
+        const { usuario, fecha, total } = req.body;
+        await productModel.guardarVenta(usuario, fecha, total);
+        res.status(200).json({ mensaje: "Compra registrada con éxito" });
+        // res.status(201).json({ mensaje: "Compra registrada con éxito" });
+    } catch (error) {
+        console.error("Error al guardar la compra:", error);
+        res.status(500).json({ error: "Error interno del servidor" });
+    }
+};

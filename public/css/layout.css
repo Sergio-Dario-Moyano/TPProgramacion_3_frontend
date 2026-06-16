@@ -5,7 +5,7 @@
     justify-content: space-between; 
     align-items: center;
     flex-wrap: wrap; 
-    padding: 15px 20px;
+    padding: 15px 20px 15px;
     border-bottom: 1px solid #333;
     position: sticky;
     top: 0;
@@ -23,8 +23,8 @@
     display: flex;
     align-items: center;
     gap: 20px;
-    position: relative; 
-    z-index: 1002; 
+    /* position: relative; 
+    z-index: 1002;  */
 }
 
 .nav-links {
@@ -124,7 +124,7 @@
 
     .hero {
         text-align: left; 
-        padding: 60px 20px 40px 20px; 
+        padding: 20px 20px 40px 20px; 
     }
     
     .hero h1 { 
@@ -154,5 +154,9 @@
     }
     .hero p { 
         max-width: 1000px; 
+    }
+
+    .grid-container {
+        padding: 2.5rem 0;
     }
 }
